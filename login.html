@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finéa — Login & Cadastro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           RESET E VARIÁVEIS GLOBAIS
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --border-color: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --success: #4ade80;
+            --error: #f87171;
+            --radius: 8px;
+            --radius-lg: 16px;
+            --transition: all 0.2s ease;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f172a 0%, #1a1f35 100%);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+        }
+
+        /* ==========================================
+           CARD PRINCIPAL
+           ========================================== */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 420px;
+            padding: 32px;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ==========================================
+           LOGO E CABEÇALHO
+           ========================================== */
+        .logo {
+            text-align: center;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            margin-bottom: 32px;
+            color: var(--accent);
+        }
+
+        .logo::before {
+            content: '💰 ';
+            font-size: 1.5rem;
+        }
+
+        /* ==========================================
+           ABAS DE NAVEGAÇÃO
+           ========================================== */
+        .tabs {
+            display: flex;
+            gap: 8px;
+            background: var(--bg-primary);
+            padding: 4px;
+            border-radius: var(--radius);
+            margin-bottom: 32px;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 10px 12px;
+            border: none;
+            background: transparent;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .tab-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        /* ==========================================
+           FEEDBACK (MENSAGENS)
+           ========================================== */
+        .feedback {
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 12px;
+            border-radius: var(--radius);
+            margin-bottom: 16px;
+            display: none;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(-8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feedback.show {
+            display: block;
+        }
+
+        .feedback.success {
+            background: rgba(74, 222, 128, 0.15);
+            color: var(--success);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .feedback.error {
+            background: rgba(248, 113, 113, 0.15);
+            color: var(--error);
+            border: 1px solid rgba(248, 113, 113, 0.3);
+        }
+
+        /* ==========================================
+           FORMULÁRIOS
+           ========================================== */
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        form.hidden {
+            display: none !important;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            border-radius: var(--radius);
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            font-family: inherit;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        input:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* ==========================================
+           GRUPO DE LGPD
+           ========================================== */
+        .lgpd-group {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding: 12px;
+            background: rgba(56, 189, 248, 0.05);
+            border: 1px solid rgba(56, 189, 248, 0.2);
+            border-radius: var(--radius);
+            margin-top: 8px;
+        }
+
+        .lgpd-group input[type="checkbox"] {
+            margin-top: 3px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+            accent-color: var(--accent);
+            flex-shrink: 0;
+        }
+
+        .lgpd-group label {
+            margin: 0;
+            font-size: 0.8rem;
+            text-transform: none;
+            letter-spacing: normal;
+            cursor: pointer;
+        }
+
+        .lgpd-group a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 500;
+            transition: var(--transition);
+        }
+
+        .lgpd-group a:hover {
+            color: var(--accent-hover);
+            text-decoration: underline;
+        }
+
+        /* ==========================================
+           BOTÕES
+           ========================================== */
+        .btn-submit {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            padding: 12px;
+            border-radius: var(--radius);
+            font-size: 0.95rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-submit:hover:not(:disabled) {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-submit:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        /* Spinner no botão */
+        .btn-submit.loading::after {
+            content: '';
+            position: absolute;
+            width: 16px;
+            height: 16px;
+            top: 50%;
+            right: 12px;
+            transform: translateY(-50%);
+            border: 2px solid rgba(15, 23, 42, 0.3);
+            border-top-color: var(--bg-primary);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: translateY(-50%) rotate(360deg); }
+        }
+
+        .btn-submit.loading {
+            padding-right: 40px;
+        }
+
+        /* ==========================================
+           RESPONSIVIDADE
+           ========================================== */
+        @media (max-width: 480px) {
+            .card {
+                padding: 24px;
+            }
+
+            .logo {
+                font-size: 1.5rem;
+                margin-bottom: 24px;
+            }
+
+            input[type="text"],
+            input[type="email"],
+            input[type="password"] {
+                font-size: 16px; /* Evita zoom no iOS */
+            }
+        }
+
+        /* ==========================================
+           ACESSIBILIDADE
+           ========================================== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        /* Focus visível para teclado */
+        input:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <!-- Logo -->
+        <div class="logo">Finéa</div>
+
+        <!-- Seletor de Abas -->
+        <div class="tabs">
+            <button type="button" class="tab-btn active" data-tab="login" aria-label="Ir para login">
+                Entrar
+            </button>
+            <button type="button" class="tab-btn" data-tab="cadastro" aria-label="Ir para cadastro">
+                Cadastrar
+            </button>
+        </div>
+
+        <!-- Área de Mensagens -->
+        <div class="feedback" id="feedback" role="alert"></div>
+
+        <!-- ========== FORMULÁRIO DE LOGIN ========== -->
+        <form id="form-login" novalidate>
+            <div class="form-group">
+                <label for="login-email">E-mail</label>
+                <input 
+                    type="email" 
+                    id="login-email" 
+                    placeholder="seu@email.com" 
+                    required
+                    aria-label="E-mail para login"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="login-senha">Senha</label>
+                <input 
+                    type="password" 
+                    id="login-senha" 
+                    placeholder="••••••••" 
+                    required
+                    aria-label="Senha"
+                >
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-login">
+                Entrar na Conta
+            </button>
+        </form>
+
+        <!-- ========== FORMULÁRIO DE CADASTRO ========== -->
+        <form id="form-cadastro" class="hidden" novalidate>
+            <div class="form-group">
+                <label for="cad-nome">Nome Completo</label>
+                <input 
+                    type="text" 
+                    id="cad-nome" 
+                    placeholder="Seu nome completo" 
+                    required
+                    aria-label="Nome completo"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="cad-cpf">CPF</label>
+                <input 
+                    type="text" 
+                    id="cad-cpf" 
+                    placeholder="000.000.000-00" 
+                    required
+                    aria-label="CPF"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="cad-email">E-mail</label>
+                <input 
+                    type="email" 
+                    id="cad-email" 
+                    placeholder="seu@email.com" 
+                    required
+                    aria-label="E-mail para cadastro"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="cad-senha">Senha</label>
+                <input 
+                    type="password" 
+                    id="cad-senha" 
+                    placeholder="Crie uma senha forte" 
+                    required
+                    aria-label="Crie uma senha"
+                >
+            </div>
+
+            <!-- Checkbox de LGPD -->
+            <div class="lgpd-group">
+                <input 
+                    type="checkbox" 
+                    id="cad-lgpd" 
+                    required
+                    aria-label="Aceitar termos de uso e política de privacidade"
+                >
+                <label for="cad-lgpd">
+                    Li e aceito os 
+                    <a href="./TERMO_CONSENTIMENTO.html" target="_blank" rel="noopener">Termos de Uso</a> 
+                    e a 
+                    <a href="./POLITICA_PRIVACIDADE.html" target="_blank" rel="noopener">Política de Privacidade</a>
+                    <br>de acordo com a LGPD.
+                </label>
+            </div>
+
+            <button type="submit" class="btn-submit" id="btn-cadastro">
+                Criar Conta
+            </button>
+        </form>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+        /**
+         * Sistema de Login e Cadastro - Finéa
+         * Gerencia autenticação de usuários com validação e tratamento de erros
+         */
+
+        // ==========================================
+        // CONFIGURAÇÕES
+        // ==========================================
+        const CONFIG = {
+            API_BASE: 'http://localhost:3000/api/usuarios',
+            TIMEOUT: 5000,
+            DEBOUNCE_TIME: 300
+        };
+
+        // ==========================================
+        // ELEMENTOS DO DOM
+        // ==========================================
+        const elements = {
+            tabs: document.querySelectorAll('.tab-btn'),
+            forms: {
+                login: document.getElementById('form-login'),
+                cadastro: document.getElementById('form-cadastro')
+            },
+            buttons: {
+                login: document.getElementById('btn-login'),
+                cadastro: document.getElementById('btn-cadastro')
+            },
+            feedback: document.getElementById('feedback'),
+            inputs: {
+                loginEmail: document.getElementById('login-email'),
+                loginSenha: document.getElementById('login-senha'),
+                cadNome: document.getElementById('cad-nome'),
+                cadCPF: document.getElementById('cad-cpf'),
+                cadEmail: document.getElementById('cad-email'),
+                cadSenha: document.getElementById('cad-senha'),
+                cadLGPD: document.getElementById('cad-lgpd')
+            }
+        };
+
+        // ==========================================
+        // UTILITÁRIOS
+        // ==========================================
+        
+        /**
+         * Exibe mensagem de feedback ao usuário
+         * @param {string} texto - Mensagem a exibir
+         * @param {string} tipo - 'success' ou 'error'
+         * @param {number} duracao - Duração em ms (0 = permanente)
+         */
+        function mostrarMensagem(texto, tipo = 'error', duracao = 4000) {
+            elements.feedback.textContent = texto;
+            elements.feedback.className = `feedback show ${tipo}`;
+
+            if (duracao > 0) {
+                setTimeout(() => {
+                    elements.feedback.classList.remove('show');
+                }, duracao);
+            }
+        }
+
+        /**
+         * Alterna entre abas de login e cadastro
+         * @param {string} aba - 'login' ou 'cadastro'
+         */
+        function alternarAba(aba) {
+            // Atualizar botões
+            elements.tabs.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.tab === aba) {
+                    btn.classList.add('active');
+                }
+            });
+
+            // Atualizar formulários
+            Object.entries(elements.forms).forEach(([chave, form]) => {
+                if (chave === aba) {
+                    form.classList.remove('hidden');
+                } else {
+                    form.classList.add('hidden');
+                }
+            });
+
+            // Limpar mensagens
+            elements.feedback.classList.remove('show');
+        }
+
+        /**
+         * Define estado de carregamento do botão
+         * @param {HTMLElement} botao - Elemento do botão
+         * @param {boolean} carregando - Estado de carregamento
+         * @param {string} textoPadrao - Texto original do botão
+         */
+        function setarCarregamento(botao, carregando, textoPadrao) {
+            botao.disabled = carregando;
+            botao.classList.toggle('loading', carregando);
+            if (!carregando) {
+                botao.textContent = textoPadrao;
+            }
+        }
+
+        /**
+         * Valida formato de CPF
+         * @param {string} cpf - CPF a validar
+         * @returns {boolean}
+         */
+        function validarCPF(cpf) {
+            const numeros = cpf.replace(/\D/g, '');
+            return numeros.length === 11;
+        }
+
+        /**
+         * Valida força da senha
+         * @param {string} senha - Senha a validar
+         * @returns {boolean}
+         */
+        function validarSenha(senha) {
+            return senha.length >= 6;
+        }
+
+        /**
+         * Faz requisição HTTP com timeout
+         * @param {string} url - URL da requisição
+         * @param {object} options - Opções de requisição
+         * @returns {Promise}
+         */
+        async function fazerRequisicao(url, options = {}) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), CONFIG.TIMEOUT);
+
+            try {
+                const response = await fetch(url, {
+                    ...options,
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+                return response;
+            } catch (erro) {
+                clearTimeout(timeoutId);
+                throw erro;
+            }
+        }
+
+        // ==========================================
+        // MANIPULADORES DE FORMULÁRIO
+        // ==========================================
+
+        /**
+         * Valida e submete formulário de login
+         */
+        async function handleLogin(evento) {
+            evento.preventDefault();
+
+            const email = elements.inputs.loginEmail.value.trim();
+            const senha = elements.inputs.loginSenha.value;
+
+            // Validações
+            if (!email || !senha) {
+                mostrarMensagem('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+
+            if (!email.includes('@')) {
+                mostrarMensagem('E-mail inválido.', 'error');
+                return;
+            }
+
+            setarCarregamento(elements.buttons.login, true, '');
+
+            try {
+                const response = await fazerRequisicao(`${CONFIG.API_BASE}/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, senha })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    mostrarMensagem(
+                        `✓ Bem-vindo, ${data.usuario.nome}! Redirecionando...`,
+                        'success'
+                    );
+
+                    // Armazenar token/dados se necessário
+                    localStorage.setItem('usuario', JSON.stringify(data.usuario));
+
+                    // Redirecionar após 1.5s
+                    setTimeout(() => {
+                        window.location.href = './index.html';
+                    }, 1500);
+                } else {
+                    mostrarMensagem(
+                        data.erro || 'Erro ao fazer login. Tente novamente.',
+                        'error'
+                    );
+                }
+            } catch (erro) {
+                if (erro.name === 'AbortError') {
+                    mostrarMensagem('Tempo limite excedido. Tente novamente.', 'error');
+                } else {
+                    mostrarMensagem('Servidor offline ou sem conexão.', 'error');
+                }
+            } finally {
+                setarCarregamento(elements.buttons.login, false, 'Entrar na Conta');
+            }
+        }
+
+        /**
+         * Valida e submete formulário de cadastro
+         */
+        async function handleCadastro(evento) {
+            evento.preventDefault();
+
+            const nome = elements.inputs.cadNome.value.trim();
+            const cpf = elements.inputs.cadCPF.value.trim();
+            const email = elements.inputs.cadEmail.value.trim();
+            const senha = elements.inputs.cadSenha.value;
+            const aceitouTermos = elements.inputs.cadLGPD.checked;
+
+            // Validações
+            if (!nome || !cpf || !email || !senha) {
+                mostrarMensagem('Por favor, preencha todos os campos.', 'error');
+                return;
+            }
+
+            if (nome.split(' ').length < 2) {
+                mostrarMensagem('Digite seu nome e sobrenome.', 'error');
+                return;
+            }
+
+            if (!validarCPF(cpf)) {
+                mostrarMensagem('CPF inválido. Digite apenas números.', 'error');
+                return;
+            }
+
+            if (!email.includes('@')) {
+                mostrarMensagem('E-mail inválido.', 'error');
+                return;
+            }
+
+            if (!validarSenha(senha)) {
+                mostrarMensagem('Senha deve ter no mínimo 6 caracteres.', 'error');
+                return;
+            }
+
+            if (!aceitouTermos) {
+                mostrarMensagem('Você deve aceitar os termos para continuar.', 'error');
+                return;
+            }
+
+            setarCarregamento(elements.buttons.cadastro, true, '');
+
+            try {
+                const response = await fazerRequisicao(`${CONFIG.API_BASE}/cadastro`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        nome,
+                        cpf: cpf.replace(/\D/g, ''),
+                        email,
+                        senha,
+                        aceitou_termos: aceitouTermos
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    mostrarMensagem(
+                        '✓ Conta criada com sucesso! Redirecionando para login...',
+                        'success'
+                    );
+
+                    // Limpar formulário
+                    elements.forms.cadastro.reset();
+
+                    // Alternar para aba de login após 1.5s
+                    setTimeout(() => {
+                        alternarAba('login');
+                        elements.inputs.loginEmail.focus();
+                    }, 1500);
+                } else {
+                    mostrarMensagem(
+                        data.erro || 'Erro ao criar conta. Tente novamente.',
+                        'error'
+                    );
+                }
+            } catch (erro) {
+                if (erro.name === 'AbortError') {
+                    mostrarMensagem('Tempo limite excedido. Tente novamente.', 'error');
+                } else {
+                    mostrarMensagem('Servidor offline ou sem conexão.', 'error');
+                }
+            } finally {
+                setarCarregamento(elements.buttons.cadastro, false, 'Criar Conta');
+            }
+        }
+
+        // ==========================================
+        // EVENT LISTENERS
+        // ==========================================
+
+        // Alternar abas
+        elements.tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                alternarAba(tab.dataset.tab);
+            });
+        });
+
+        // Submissão de formulários
+        elements.forms.login.addEventListener('submit', handleLogin);
+        elements.forms.cadastro.addEventListener('submit', handleCadastro);
+
+        // Enter nos inputs de senha
+        elements.inputs.loginSenha.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleLogin(e);
+            }
+        });
+
+        elements.inputs.cadSenha.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                handleCadastro(e);
+            }
+        });
+
+        // Focar primeiro input ao carregar
+        elements.inputs.loginEmail.focus();
+    </script>
+</body>
+</html>

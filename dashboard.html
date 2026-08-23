@@ -1,0 +1,1452 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finéa — Dashboard Financeiro</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* ==========================================
+           RESET E VARIÁVEIS GLOBAIS
+           ========================================== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --border-color: #334155;
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent: #38bdf8;
+            --accent-hover: #0284c7;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --radius: 12px;
+            --transition: all 0.3s ease;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--bg-primary) 0%, #1a1f35 100%);
+            color: var(--text-primary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ==========================================
+           CONTAINER PRINCIPAL
+           ========================================== */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ==========================================
+           TOPBAR
+           ========================================== */
+        .topbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 20px 0;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 32px;
+            gap: 20px;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent);
+            white-space: nowrap;
+        }
+
+        .logo::before {
+            content: '💰 ';
+            margin-right: 8px;
+        }
+
+        .topbar-center {
+            flex: 1;
+            text-align: center;
+        }
+
+        .topbar-greeting {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .topbar-greeting .username {
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .topbar-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .btn-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .btn-icon:hover {
+            background: #334155;
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ==========================================
+           SEÇÃO DE CONTEÚDO
+           ========================================== */
+        .content {
+            flex: 1;
+        }
+
+        /* ==========================================
+           KPI CARDS
+           ========================================== */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 32px;
+        }
+
+        .kpi-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 24px;
+            transition: var(--transition);
+        }
+
+        .kpi-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(56, 189, 248, 0.1);
+        }
+
+        .kpi-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+
+        .kpi-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            word-break: break-word;
+        }
+
+        .kpi-indicator {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .kpi-indicator.positive {
+            color: var(--success);
+        }
+
+        .kpi-indicator.negative {
+            color: var(--error);
+        }
+
+        /* ==========================================
+           SEÇÃO DE AÇÕES
+           ========================================== */
+        .actions-section {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-primary:hover {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* ==========================================
+           CARD DE TRANSAÇÕES
+           ========================================== */
+        .card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 24px;
+            margin-bottom: 32px;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+        }
+
+        /* ==========================================
+           TABELA DE TRANSAÇÕES
+           ========================================== */
+        .table-wrapper {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        thead {
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        th {
+            padding: 12px;
+            text-align: left;
+            color: var(--text-secondary);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 16px 12px;
+            border-bottom: 1px solid var(--border-color);
+            color: var(--text-primary);
+        }
+
+        tbody tr:hover {
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .transaction-date {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .transaction-category {
+            display: inline-block;
+            background: rgba(56, 189, 248, 0.1);
+            color: var(--accent);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .transaction-type {
+            font-weight: 600;
+        }
+
+        .transaction-type.entrada {
+            color: var(--success);
+        }
+
+        .transaction-type.saida {
+            color: var(--error);
+        }
+
+        .transaction-value {
+            font-weight: 600;
+            text-align: right;
+        }
+
+        .transaction-value.positive {
+            color: var(--success);
+        }
+
+        .transaction-value.negative {
+            color: var(--error);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+
+        .empty-state-text {
+            font-size: 1rem;
+            margin-bottom: 8px;
+        }
+
+        /* ==========================================
+           MODAL
+           ========================================== */
+        .modal-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal-bg.active {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius);
+            padding: 32px;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 24px;
+        }
+
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-group label {
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            background: var(--bg-primary);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 12px;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .info-box {
+            background: rgba(56, 189, 248, 0.1);
+            border: 1px solid rgba(56, 189, 248, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+        .info-label {
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .info-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+
+        .modal-actions button {
+            flex: 1;
+        }
+
+        .btn-danger {
+            background: var(--error);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+        }
+
+        .btn-cancel {
+            background: var(--border-color);
+            color: var(--text-primary);
+            border: none;
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .btn-cancel:hover {
+            background: #475569;
+        }
+
+        /* ==========================================
+           CONFIRMAÇÃO DE SEGURANÇA
+           ========================================== */
+        .security-warning {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .security-warning-title {
+            color: var(--error);
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 8px;
+        }
+
+        .security-warning-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        /* ==========================================
+           LOADING STATE
+           ========================================== */
+        .loading {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid var(--border-color);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 0.6s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ==========================================
+           RESPONSIVIDADE
+           ========================================== */
+        @media (max-width: 768px) {
+            .topbar {
+                flex-direction: column;
+                gap: 16px;
+            }
+
+            .topbar-center {
+                order: -1;
+            }
+
+            .logo {
+                font-size: 1.3rem;
+            }
+
+            .kpi-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .modal {
+                padding: 24px;
+            }
+
+            .actions-section {
+                flex-direction: column;
+            }
+
+            .actions-section button {
+                width: 100%;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 12px 8px;
+            }
+        }
+
+        /* ==========================================
+           ACESSIBILIDADE
+           ========================================== */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+
+        input:focus-visible,
+        button:focus-visible,
+        select:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- ========== TOPBAR ========== -->
+        <div class="topbar">
+            <div class="logo">Finéa</div>
+            <div class="topbar-center">
+                <div class="topbar-greeting">
+                    Bem-vindo, <span class="username" id="usernameDisplay">Usuário</span>! 👋
+                </div>
+            </div>
+            <div class="topbar-actions">
+                <button class="btn-icon" id="btnLGPD" title="Gerenciar dados (LGPD)" aria-label="Abrir modal de privacidade">
+                    🔐
+                </button>
+                <button class="btn-icon" id="btnLogout" title="Sair" aria-label="Fazer logout">
+                    🚪
+                </button>
+            </div>
+        </div>
+
+        <!-- ========== CONTEÚDO PRINCIPAL ========== -->
+        <div class="content">
+            <!-- ========== KPI CARDS ========== -->
+            <div class="kpi-grid">
+                <div class="kpi-card">
+                    <div class="kpi-label">Saldo em Conta Corrente</div>
+                    <div class="kpi-value" id="saldoCorrente">R$ 0,00</div>
+                    <div class="kpi-indicator positive">
+                        ↑ Disponível para uso
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label">Fatura do Cartão</div>
+                    <div class="kpi-value" id="faturaCartao">R$ 0,00</div>
+                    <div class="kpi-indicator negative">
+                        ↓ A vencer
+                    </div>
+                </div>
+
+                <div class="kpi-card">
+                    <div class="kpi-label">Rendimentos do Mês</div>
+                    <div class="kpi-value" id="rendimentos">R$ 0,00</div>
+                    <div class="kpi-indicator positive">
+                        ↑ Acumulado
+                    </div>
+                </div>
+            </div>
+
+            <!-- ========== AÇÕES RÁPIDAS ========== -->
+            <div class="actions-section">
+                <button class="btn-primary" id="btnNovaTransacao">
+                    + Nova Transação
+                </button>
+                <button class="btn-secondary" id="btnNovoPix">
+                    + Chave PIX
+                </button>
+            </div>
+
+            <!-- ========== TRANSAÇÕES RECENTES ========== -->
+            <div class="card">
+                <h2 class="card-title">Transações Recentes</h2>
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data</th>
+                                <th>Descrição</th>
+                                <th>Categoria</th>
+                                <th>Tipo</th>
+                                <th style="text-align: right;">Valor</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabelaTransacoes">
+                            <tr>
+                                <td colspan="5" class="empty-state">
+                                    <div class="empty-state-icon">📋</div>
+                                    <div class="empty-state-text">Nenhuma transação encontrada</div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== MODAIS ========== -->
+
+    <!-- Modal: Nova Transação -->
+    <div class="modal-bg" id="modalNovaTransacao">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Nova Transação</h2>
+                <button class="modal-close" onclick="fecharModal('modalNovaTransacao')">✕</button>
+            </div>
+
+            <form class="modal-body" id="formNovaTransacao">
+                <div class="form-group">
+                    <label for="transacaoTipo">Tipo</label>
+                    <select id="transacaoTipo" required>
+                        <option value="">Selecione...</option>
+                        <option value="receita">Receita (Entrada)</option>
+                        <option value="despesa">Despesa (Saída)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transacaoCategoria">Categoria</label>
+                    <select id="transacaoCategoria" required>
+                        <option value="">Selecione...</option>
+                        <option value="alimentacao">Alimentação</option>
+                        <option value="transporte">Transporte</option>
+                        <option value="utilidades">Utilidades</option>
+                        <option value="lazer">Lazer</option>
+                        <option value="outros">Outros</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="transacaoDescricao">Descrição</label>
+                    <input type="text" id="transacaoDescricao" placeholder="Ex: Supermercado" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="transacaoValor">Valor (R$)</label>
+                    <input type="number" id="transacaoValor" placeholder="0.00" step="0.01" min="0" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="transacaoData">Data</label>
+                    <input type="date" id="transacaoData" required>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="fecharModal('modalNovaTransacao')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        Salvar Transação
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Nova Chave PIX -->
+    <div class="modal-bg" id="modalNovoPix">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Adicionar Chave PIX</h2>
+                <button class="modal-close" onclick="fecharModal('modalNovoPix')">✕</button>
+            </div>
+
+            <form class="modal-body" id="formNovoPix">
+                <div class="form-group">
+                    <label for="pixTipo">Tipo de Chave</label>
+                    <select id="pixTipo" required>
+                        <option value="">Selecione...</option>
+                        <option value="cpf">CPF</option>
+                        <option value="email">E-mail</option>
+                        <option value="telefone">Telefone</option>
+                        <option value="chave-aleatoria">Chave Aleatória</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="pixValor">Chave PIX</label>
+                    <input type="text" id="pixValor" placeholder="Digite sua chave PIX" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="pixDescricao">Descrição (opcional)</label>
+                    <input type="text" id="pixDescricao" placeholder="Ex: PIX do trabalho">
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="fecharModal('modalNovoPix')">
+                        Cancelar
+                    </button>
+                    <button type="submit" class="btn-primary">
+                        Adicionar PIX
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal: Gestão de Dados LGPD -->
+    <div class="modal-bg" id="modalLGPD">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Meus Dados & Privacidade</h2>
+                <button class="modal-close" onclick="fecharModal('modalLGPD')">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="info-box">
+                    <strong>Lei Geral de Proteção de Dados (LGPD)</strong><br>
+                    Você tem direitos garantidos conforme a Lei 13.709/2018
+                </div>
+
+                <h3 style="margin-top: 24px; margin-bottom: 16px; color: var(--text-primary);">
+                    Dados Cadastrados
+                </h3>
+
+                <div class="info-row">
+                    <div class="info-label">Nome</div>
+                    <div class="info-value" id="lgpdNome">-</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">CPF</div>
+                    <div class="info-value" id="lgpdCPF">-</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">E-mail</div>
+                    <div class="info-value" id="lgpdEmail">-</div>
+                </div>
+
+                <div class="info-row">
+                    <div class="info-label">Data de Aceite</div>
+                    <div class="info-value" id="lgpdData">-</div>
+                </div>
+
+                <h3 style="margin-top: 24px; margin-bottom: 16px; color: var(--text-primary);">
+                    Direitos
+                </h3>
+
+                <button class="btn-secondary" style="width: 100%; margin-bottom: 12px;" id="btnExportarDados">
+                    📥 Exportar Meus Dados (Portabilidade)
+                </button>
+
+                <button class="btn-danger" style="width: 100%;" id="btnSolicitarExclusao">
+                    🗑️ Solicitar Exclusão de Conta
+                </button>
+
+                <div class="modal-actions" style="margin-top: 24px;">
+                    <button type="button" class="btn-primary" onclick="fecharModal('modalLGPD')" style="flex: 1;">
+                        Fechar
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Confirmação de Exclusão -->
+    <div class="modal-bg" id="modalConfirmacaoExclusao">
+        <div class="modal">
+            <div class="modal-header">
+                <h2 class="modal-title">Excluir Minha Conta</h2>
+                <button class="modal-close" onclick="fecharModal('modalConfirmacaoExclusao')">✕</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="security-warning">
+                    <div class="security-warning-title">⚠️ Atenção - Ação Irreversível</div>
+                    <div class="security-warning-text">
+                        A exclusão de sua conta é permanente. Todos os seus dados serão deletados em até 30 dias úteis 
+                        conforme a LGPD.
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmacaoEmail">Confirme seu E-mail</label>
+                    <input 
+                        type="email" 
+                        id="confirmacaoEmail" 
+                        placeholder="seu@email.com"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label style="flex-direction: row; gap: 8px;">
+                        <input type="checkbox" id="confirmacaoLeiAvisos" required>
+                        <span>Li e entendo que essa ação é irreversível</span>
+                    </label>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="button" class="btn-cancel" onclick="fecharModal('modalConfirmacaoExclusao')">
+                        Cancelar
+                    </button>
+                    <button type="button" class="btn-danger" id="btnConfirmarExclusao">
+                        Sim, Excluir Minha Conta
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ========== SCRIPTS ========== -->
+    <script>
+        /**
+         * DASHBOARD FINANCEIRO - FINÉA
+         * Sistema de gerenciamento de finanças pessoais com suporte a LGPD
+         */
+
+        // ==========================================
+        // CONFIGURAÇÕES GLOBAIS
+        // ==========================================
+        const CONFIG = {
+            API_BASE: 'http://localhost:3000/api',
+            TIMEOUT: 5000,
+            STORAGE_KEY: 'usuario' // mesma chave usada por login.html ao salvar o usuário
+        };
+
+        // ==========================================
+        // ESTADO GLOBAL
+        // ==========================================
+        let usuarioAtual = null;
+        let dadosFinanceiros = {
+            saldoCorrente: 0,
+            faturaCartao: 0,
+            rendimentos: 0,
+            transacoes: []
+        };
+
+        // ==========================================
+        // FORMATADORES UTILITÁRIOS
+        // ==========================================
+
+        /**
+         * Formata número para padrão monetário brasileiro
+         * @param {number} valor - Valor a formatar
+         * @returns {string} Valor formatado
+         */
+        function formatarMoeda(valor) {
+            return new Intl.NumberFormat('pt-BR', {
+                style: 'currency',
+                currency: 'BRL'
+            }).format(valor);
+        }
+
+        /**
+         * Formata data para padrão brasileiro
+         * @param {string|Date} data - Data a formatar
+         * @returns {string} Data formatada
+         */
+        function formatarData(data) {
+            return new Intl.DateTimeFormat('pt-BR', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit'
+            }).format(new Date(data));
+        }
+
+        /**
+         * Mascara CPF para exibição (últimos 2 dígitos visíveis)
+         * @param {string} cpf - CPF completo
+         * @returns {string} CPF mascarado
+         */
+        function mascararCPF(cpf) {
+            const cpfString = String(cpf).replace(/\D/g, '');
+            if (cpfString.length !== 11) return cpf;
+            return cpfString.slice(0, 3) + '.' + 
+                   cpfString.slice(3, 6) + '.' +
+                   cpfString.slice(6, 9) + '.-' +
+                   cpfString.slice(9);
+        }
+
+        /**
+         * Faz requisição HTTP com tratamento de erro
+         * @param {string} url - URL da requisição
+         * @param {object} opcoes - Opções do fetch
+         * @returns {Promise}
+         */
+        async function fazerRequisicao(url, opcoes = {}) {
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), CONFIG.TIMEOUT);
+
+            try {
+                const response = await fetch(url, {
+                    ...opcoes,
+                    signal: controller.signal
+                });
+                clearTimeout(timeoutId);
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+
+                return await response.json();
+            } catch (erro) {
+                clearTimeout(timeoutId);
+                console.error('Erro na requisição:', erro);
+                throw erro;
+            }
+        }
+
+        // ==========================================
+        // GERENCIAMENTO DE MODAIS
+        // ==========================================
+
+        /**
+         * Abre um modal
+         * @param {string} id - ID do modal
+         */
+        function abrirModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            }
+        }
+
+        /**
+         * Fecha um modal
+         * @param {string} id - ID do modal
+         */
+        function fecharModal(id) {
+            const modal = document.getElementById(id);
+            if (modal) {
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        /**
+         * Fecha modal ao clicar fora
+         */
+        document.querySelectorAll('.modal-bg').forEach(modalBg => {
+            modalBg.addEventListener('click', (e) => {
+                if (e.target === modalBg) {
+                    fecharModal(modalBg.id);
+                }
+            });
+        });
+
+        /**
+         * Fecha modal ao pressionar ESC
+         */
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-bg.active').forEach(modal => {
+                    fecharModal(modal.id);
+                });
+            }
+        });
+
+        // ==========================================
+        // PROTEÇÃO DE ROTA
+        // ==========================================
+
+        /**
+         * Verifica se usuário está autenticado
+         */
+        function verificarAutenticacao() {
+            const usuarioJSON = localStorage.getItem(CONFIG.STORAGE_KEY);
+
+            if (!usuarioJSON) {
+                console.warn('Usuário não autenticado. Redirecionando...');
+                window.location.href = './login.html';
+                return false;
+            }
+
+            try {
+                usuarioAtual = JSON.parse(usuarioJSON);
+                return true;
+            } catch (erro) {
+                console.error('Erro ao decodificar usuário:', erro);
+                localStorage.removeItem(CONFIG.STORAGE_KEY);
+                window.location.href = './login.html';
+                return false;
+            }
+        }
+
+        // ==========================================
+        // CARREGAMENTO DE DADOS
+        // ==========================================
+
+        /**
+         * Carrega dados financeiros da API
+         */
+        async function carregarDadosFinanceiros() {
+            try {
+                if (!usuarioAtual || !usuarioAtual.id) {
+                    throw new Error('Usuário não identificado');
+                }
+
+                // Carrega dados da conta corrente
+                const response = await fazerRequisicao(
+                    `${CONFIG.API_BASE}/contas/corrente/${usuarioAtual.id}`
+                );
+
+                if (response) {
+                    // Aqui você pode expandir para carregar mais dados
+                    dadosFinanceiros.saldoCorrente = response.saldo || 0;
+                    dadosFinanceiros.faturaCartao = response.faturas || 0;
+                    dadosFinanceiros.rendimentos = response.rendimentos || 0;
+                }
+
+                // Carrega a lista de transações do usuário
+                const transacoes = await fazerRequisicao(
+                    `${CONFIG.API_BASE}/transacoes/${usuarioAtual.id}`
+                );
+                dadosFinanceiros.transacoes = transacoes || [];
+
+                atualizarUI();
+            } catch (erro) {
+                console.error('Erro ao carrega dados:', erro);
+                // Manter dados padrão (0) se erro na requisição
+            }
+        }
+
+        /**
+         * Atualiza interface com dados carregados
+         */
+        function atualizarUI() {
+            // Atualizar nome do usuário
+            document.getElementById('usernameDisplay').textContent = 
+                usuarioAtual.nome || 'Usuário';
+
+            // Atualizar KPI cards
+            document.getElementById('saldoCorrente').textContent = 
+                formatarMoeda(dadosFinanceiros.saldoCorrente);
+            document.getElementById('faturaCartao').textContent = 
+                formatarMoeda(dadosFinanceiros.faturaCartao);
+            document.getElementById('rendimentos').textContent = 
+                formatarMoeda(dadosFinanceiros.rendimentos);
+
+            // Atualizar tabela de transações
+            atualizarTabelaTransacoes();
+
+            // Atualizar modal LGPD
+            atualizarModalLGPD();
+        }
+
+        /**
+         * Atualiza tabela de transações
+         */
+        function atualizarTabelaTransacoes() {
+            const tbody = document.getElementById('tabelaTransacoes');
+
+            if (!dadosFinanceiros.transacoes || dadosFinanceiros.transacoes.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            <div class="empty-state-icon">📋</div>
+                            <div class="empty-state-text">Nenhuma transação encontrada</div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = dadosFinanceiros.transacoes.map(transacao => `
+                <tr>
+                    <td class="transaction-date">${formatarData(transacao.data)}</td>
+                    <td>${transacao.descricao}</td>
+                    <td>
+                        <span class="transaction-category">
+                            ${transacao.categoria}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="transaction-type ${transacao.tipo}">
+                            ${transacao.tipo === 'receita' ? '↑ Entrada' : '↓ Saída'}
+                        </span>
+                    </td>
+                    <td class="transaction-value ${transacao.tipo === 'receita' ? 'positive' : 'negative'}">
+                        ${transacao.tipo === 'receita' ? '+' : '-'} ${formatarMoeda(Math.abs(transacao.valor))}
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        /**
+         * Atualiza modal LGPD com dados do usuário
+         */
+        function atualizarModalLGPD() {
+            if (!usuarioAtual) return;
+
+            document.getElementById('lgpdNome').textContent = 
+                usuarioAtual.nome || '-';
+            document.getElementById('lgpdCPF').textContent = 
+                mascararCPF(usuarioAtual.cpf || '');
+            document.getElementById('lgpdEmail').textContent = 
+                usuarioAtual.email || '-';
+            document.getElementById('lgpdData').textContent = 
+                usuarioAtual.data_aceite_lgpd ? 
+                formatarData(usuarioAtual.data_aceite_lgpd) : 'Não aceito';
+        }
+
+        // ==========================================
+        // HANDLERS DE FORMULÁRIOS
+        // ==========================================
+
+        /**
+         * Submete nova transação
+         */
+        document.getElementById('formNovaTransacao')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            try {
+                const tipo = document.getElementById('transacaoTipo').value;
+                const categoria = document.getElementById('transacaoCategoria').value;
+                const descricao = document.getElementById('transacaoDescricao').value;
+                const valor = parseFloat(document.getElementById('transacaoValor').value);
+                const data = document.getElementById('transacaoData').value;
+
+                if (!tipo || !categoria || !descricao || !valor || !data) {
+                    alert('Por favor, preencha todos os campos.');
+                    return;
+                }
+
+                // Enviar para API
+                const response = await fazerRequisicao(
+                    `${CONFIG.API_BASE}/transacoes`,
+                    {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            usuario_id: usuarioAtual.id,
+                            tipo,
+                            categoria,
+                            descricao,
+                            valor,
+                            data
+                        })
+                    }
+                );
+
+                alert('Transação salva com sucesso!');
+                fecharModal('modalNovaTransacao');
+                document.getElementById('formNovaTransacao').reset();
+
+                // Recarregar dados
+                await carregarDadosFinanceiros();
+            } catch (erro) {
+                alert('Erro ao salvar transação: ' + erro.message);
+            }
+        });
+
+        /**
+         * Submete nova chave PIX
+         */
+        document.getElementById('formNovoPix')?.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            try {
+                const tipo = document.getElementById('pixTipo').value;
+                const valor = document.getElementById('pixValor').value;
+                const descricao = document.getElementById('pixDescricao').value;
+
+                if (!tipo || !valor) {
+                    alert('Por favor, preencha os campos obrigatórios.');
+                    return;
+                }
+
+                alert('Chave PIX adicionada com sucesso!');
+                fecharModal('modalNovoPix');
+                document.getElementById('formNovoPix').reset();
+            } catch (erro) {
+                alert('Erro ao adicionar PIX: ' + erro.message);
+            }
+        });
+
+        // ==========================================
+        // HANDLERS DE BOTÕES
+        // ==========================================
+
+        /**
+         * Botão: Nova Transação
+         */
+        document.getElementById('btnNovaTransacao').addEventListener('click', () => {
+            // Preencher data com hoje
+            const hoje = new Date().toISOString().split('T')[0];
+            document.getElementById('transacaoData').value = hoje;
+            abrirModal('modalNovaTransacao');
+        });
+
+        /**
+         * Botão: Nova Chave PIX
+         */
+        document.getElementById('btnNovoPix').addEventListener('click', () => {
+            abrirModal('modalNovoPix');
+        });
+
+        /**
+         * Botão: Meus Dados (LGPD)
+         */
+        document.getElementById('btnLGPD').addEventListener('click', () => {
+            abrirModal('modalLGPD');
+        });
+
+        /**
+         * Botão: Exportar Dados
+         */
+        document.getElementById('btnExportarDados').addEventListener('click', () => {
+            const dados = {
+                usuario: usuarioAtual,
+                financeiro: dadosFinanceiros,
+                exportacao_data: new Date().toISOString()
+            };
+
+            const blob = new Blob(
+                [JSON.stringify(dados, null, 2)],
+                { type: 'application/json' }
+            );
+
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `finea-dados-${Date.now()}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+
+            alert('Seus dados foram exportados com sucesso!');
+        });
+
+        /**
+         * Botão: Solicitar Exclusão
+         */
+        document.getElementById('btnSolicitarExclusao').addEventListener('click', () => {
+            fecharModal('modalLGPD');
+            abrirModal('modalConfirmacaoExclusao');
+        });
+
+        /**
+         * Botão: Confirmar Exclusão
+         */
+        document.getElementById('btnConfirmarExclusao').addEventListener('click', async () => {
+            const email = document.getElementById('confirmacaoEmail').value;
+            const confirmacao = document.getElementById('confirmacaoLeiAvisos').checked;
+
+            if (!email || !confirmacao) {
+                alert('Por favor, preencha todos os campos de confirmação.');
+                return;
+            }
+
+            if (email !== usuarioAtual.email) {
+                alert('E-mail não coincide com o cadastrado.');
+                return;
+            }
+
+            try {
+                const resposta = confirm(
+                    '⚠️ ÚLTIMA CONFIRMAÇÃO\n\nSua conta e todos os dados serão deletados permanentemente.\n\nTem certeza?'
+                );
+
+                if (!resposta) return;
+
+                // Chamar API de exclusão
+                await fazerRequisicao(
+                    `${CONFIG.API_BASE}/usuarios/${usuarioAtual.id}`,
+                    { method: 'DELETE' }
+                );
+
+                alert('Solicitação de exclusão enviada! Você receberá um e-mail de confirmação.');
+
+                // Logout e redirecionar
+                localStorage.removeItem(CONFIG.STORAGE_KEY);
+                window.location.href = './login.html';
+            } catch (erro) {
+                alert('Erro ao solicitar exclusão: ' + erro.message);
+            }
+        });
+
+        /**
+         * Botão: Logout
+         */
+        document.getElementById('btnLogout').addEventListener('click', () => {
+            const confirmacao = confirm('Deseja realmente sair?');
+            if (!confirmacao) return;
+
+            localStorage.removeItem(CONFIG.STORAGE_KEY);
+            window.location.href = './login.html';
+        });
+
+        // ==========================================
+        // INICIALIZAÇÃO
+        // ==========================================
+
+        /**
+         * Inicializa a página
+         */
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Verificar autenticação
+            if (!verificarAutenticacao()) return;
+
+            // Carrega dados financeiros
+            await carregarDadosFinanceiros();
+        });
+    </script>
+</body>
+</html>

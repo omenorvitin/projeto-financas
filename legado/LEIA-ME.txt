@@ -1,0 +1,6 @@
+Esses arquivos (app.py, requirements.txt) são de uma versão anterior
+do projeto, que usava Python/Flask + SQLite.
+
+O projeto migrou para Node.js/Express + MySQL (veja BackEnd/server.js).
+Eles ficam guardados aqui só de referência/histórico — não são mais
+usados pelo login.html, dashboard.html nem index.html atuais.

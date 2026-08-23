@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Finéa - Dashboard Financeiro Pessoal</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="FrontEnd/style.css">
+</head>
+<body data-theme="light">
+<div class="app">
+  <div class="topbar">
+    <div class="logo"><span><i class="fa-solid fa-coins"></i></span> Finéa</div>
+    <div class="top-actions">
+      <button class="icon-btn" id="themeBtn" title="Modo escuro/claro"><i class="fa-solid fa-moon"></i></button>
+      <button class="icon-btn" id="logoutBtn" title="Sair" onclick="logout()"><i class="fa-solid fa-right-from-bracket"></i></button>
+    </div>
+  </div>
+
+  <!-- HOME -->
+  <main id="page-home" class="active">
+    <div class="balance-hero">
+      <div class="lbl">Saldo Total</div>
+      <div class="val money" id="heroSaldo">R$ 0,00</div>
+      <div class="sub" id="heroSub"></div>
+    </div>
+    <div class="grid g2">
+      <div class="stat-card"><div class="lbl">Receitas do mês</div><div class="val money val-pos" id="stReceitas">R$ 0,00</div><div class="cmp" id="cmpReceitas"></div></div>
+      <div class="stat-card"><div class="lbl">Despesas do mês</div><div class="val money val-neg" id="stDespesas">R$ 0,00</div><div class="cmp" id="cmpDespesas"></div></div>
+    </div>
+    <div class="daily-card">
+      <div class="lbl"><i class="fa-solid fa-coins"></i> Quanto sobra por dia</div>
+      <div class="val money" id="dailyVal">R$ 0,00</div>
+      <div class="sub" id="dailySub"></div>
+    </div>
+    <div class="card">
+      <div class="mb"><h3>Gastos por categoria</h3><span class="chip blue" id="chartMonthLbl"></span></div>
+      <div class="chart-wrap"><canvas id="chartCat"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="mb"><h3>Evolução do saldo</h3><span class="chip gray" id="chartBalLbl"></span></div>
+      <div class="chart-wrap sm"><canvas id="chartBal"></canvas></div>
+    </div>
+    <div class="sec-label">Contas a pagar / receber (7 dias)</div>
+    <div class="card" id="weekContas"></div>
+    <div class="sec-label">Últimas transações</div>
+    <div class="card" id="ultimasTrans"></div>
+  </main>
+
+  <!-- TRANSACOES -->
+  <main id="page-trans">
+    <div class="page-title">Transações</div>
+    <div class="filter-row">
+      <input type="text" id="fTransBusca" placeholder="Buscar...">
+      <select id="fTransMes"><option value="">Todos os meses</option></select>
+      <select id="fTransTipo"><option value="">Todos tipos</option><option value="receita">Receita</option><option value="despesa">Despesa</option><option value="transferencia">Transferência</option></select>
+      <select id="fTransCat"><option value="">Todas categorias</option></select>
+    </div>
+    <div class="card" id="transList"></div>
+  </main>
+
+  <!-- CONTAS -->
+  <main id="page-contas">
+    <div class="page-title">Contas e Carteiras</div>
+    <div class="card">
+      <div class="mb"><h3>Saldo consolidado</h3></div>
+      <div class="val money val-pos" style="font-size:32px" id="saldoConsolidado">R$ 0,00</div>
+    </div>
+    <div class="grid g2" id="contasGrid"></div>
+    <div class="sec-label">Transferências recentes</div>
+    <div class="card" id="transfList"></div>
+  </main>
+
+  <!-- CARTOES -->
+  <main id="page-cartoes">
+    <div class="page-title">Cartões de Crédito</div>
+    <div class="grid g2" id="cartoesGrid"></div>
+    <div class="sec-label">Faturas</div>
+    <div class="card" id="faturaList"></div>
+  </main>
+
+  <!-- ORCAMENTO -->
+  <main id="page-orcamento">
+    <div class="page-title">Orçamento do mês</div>
+    <div id="budgetAlerts"></div>
+    <div class="card" id="orcamentoList"></div>
+  </main>
+
+  <!-- METAS -->
+  <main id="page-metas">
+    <div class="page-title">Metas Financeiras</div>
+    <div class="grid g2" id="metasGrid"></div>
+  </main>
+
+  <!-- RELATORIOS -->
+  <main id="page-relatorios">
+    <div class="page-title">Relatórios</div>
+    <div class="filter-row">
+      <select id="fRelPeriodo"><option value="mes">Este mês</option><option value="trimestre">Este trimestre</option><option value="ano">Este ano</option><option value="todos">Todo período</option></select>
+      <select id="fRelCat"><option value="">Todas categorias</option></select>
+      <select id="fRelConta"><option value="">Todas contas</option></select>
+    </div>
+    <div class="grid g3">
+      <div class="stat-card"><div class="lbl">Receitas</div><div class="val money val-pos" id="relRec">R$ 0,00</div></div>
+      <div class="stat-card"><div class="lbl">Despesas</div><div class="val money val-neg" id="relDes">R$ 0,00</div></div>
+      <div class="stat-card"><div class="lbl">Saldo</div><div class="val money" id="relSal">R$ 0,00</div></div>
+    </div>
+    <div class="card">
+      <div class="mb"><h3>Comparativo mês a mês</h3><button class="btn outline sm" onclick="exportCSV()"><i class="fa-solid fa-download"></i> Exportar CSV</button></div>
+      <div class="chart-wrap"><canvas id="chartCompare"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="mb"><h3>Detalhamento por categoria</h3></div>
+      <div class="chart-wrap"><canvas id="chartRelCat"></canvas></div>
+    </div>
+  </main>
+
+  <!-- CONFIG -->
+  <main id="page-config">
+    <div class="page-title">Configurações</div>
+    <div class="card">
+      <div class="form-row"><label>Moeda</label>
+        <select id="cfgMoeda"><option value="BRL">R$ (Real)</option><option value="USD">US$ (Dólar)</option><option value="EUR">€ (Euro)</option></select>
+      </div>
+      <div class="form-row"><label>Dia de início do mês financeiro</label>
+        <input type="number" id="cfgDiaInicio" min="1" max="28" value="1">
+        <p style="font-size:12px;color:var(--muted);margin-top:5px">Útil para quem recebe em datas específicas. Ex: dia 5 inicia o mês financeiro no dia 5.</p>
+      </div>
+      <div class="form-row"><label>Tema</label>
+        <select id="cfgTema"><option value="light">Claro</option><option value="dark">Escuro</option></select>
+      </div>
+      <div class="form-row"><label>Notificações de vencimento</label>
+        <select id="cfgNotif"><option value="1">Ativadas</option><option value="0">Desativadas</option></select>
+      </div>
+      <button class="btn primary" onclick="saveConfig()"><i class="fa-solid fa-floppy-disk"></i> Salvar configurações</button>
+    </div>
+    <div class="sec-label">Categorias</div>
+    <div class="card" id="catConfigList"></div>
+    <div class="sec-label">Documentação</div>
+    <div class="card" style="font-size:14px;line-height:1.7">
+      <h3 style="margin-bottom:8px"><i class="fa-solid fa-book-open"></i> Como usar</h3>
+      <p><b>Adicionar transação:</b> toque no botão azul flutuante (+) &rarr; escolha tipo (receita/despesa/transferência) &rarr; preencha descrição e valor &rarr; salve. Em 3 toques o lançamento está feito.</p>
+      <p style="margin-top:8px"><b>Interpretar o dashboard:</b> o cartão azul mostra o saldo total; os dois cartões mostram receitas vs despesas do mês comparadas ao mês anterior; o cartão verde "quanto sobra por dia" divide o saldo disponível pelos dias restantes do mês financeiro; o gráfico de rosca mostra a distribuição de gastos por categoria; o gráfico de barras mostra a evolução do saldo nos últimos 6 meses.</p>
+      <p style="margin-top:8px"><b>Recorrentes e parcelas:</b> ao lançar uma despesa você pode ativar "recorrente" (repetição mensal/semanal/anual) ou "parcelado" (gera as parcelas futuras automaticamente).</p>
+      <p style="margin-top:8px"><b>Dados:</b> tudo fica salvo na sua conta, no servidor. Use "Redefinir dados" para restaurar o exemplo.</p>
+      <button class="btn outline sm" style="margin-top:12px" onclick="resetData()"><i class="fa-solid fa-rotate-left"></i> Redefinir dados de exemplo</button>
+    </div>
+  </main>
+</div>
+
+<button class="fab" onclick="openModal()" title="Nova transação"><i class="fa-solid fa-plus"></i></button>
+<div class="bottom-nav" id="bottomNav">
+  <button class="nav-item active" data-page="home"><span class="i"><i class="fa-solid fa-house"></i></span>Início</button>
+  <button class="nav-item" data-page="trans"><span class="i"><i class="fa-solid fa-receipt"></i></span>Transações</button>
+  <button class="nav-item" data-page="contas"><span class="i"><i class="fa-solid fa-building-columns"></i></span>Contas</button>
+  <button class="nav-item" data-page="cartoes"><span class="i"><i class="fa-solid fa-credit-card"></i></span>Cartões</button>
+  <button class="nav-item" data-page="orcamento"><span class="i"><i class="fa-solid fa-bullseye"></i></span>Orçamento</button>
+  <button class="nav-item" data-page="metas"><span class="i"><i class="fa-solid fa-trophy"></i></span>Metas</button>
+  <button class="nav-item" data-page="relatorios"><span class="i"><i class="fa-solid fa-chart-column"></i></span>Relatórios</button>
+  <button class="nav-item" data-page="config"><span class="i"><i class="fa-solid fa-gear"></i></span>Config</button>
+</div>
+
+<!-- MODAL TRANSACAO -->
+<div class="modal-bg" id="modalBg">
+  <div class="modal" id="modal">
+    <h2 id="modalTitle">Nova transação</h2>
+    <div class="type-select">
+      <button class="type-opt active exp" data-tipo="receita" onclick="setTipo('receita')"><i class="fa-solid fa-arrow-trend-up"></i> Receita</button>
+      <button class="type-opt des" data-tipo="despesa" onclick="setTipo('despesa')"><i class="fa-solid fa-arrow-trend-down"></i> Despesa</button>
+      <button class="type-opt trans" data-tipo="transferencia" onclick="setTipo('transferencia')"><i class="fa-solid fa-arrows-rotate"></i> Transferência</button>
+    </div>
+    <div class="form-row"><label>Descrição *</label><input id="tDesc" placeholder="Ex: Mercado, Salário..."></div>
+    <div class="form-row"><label>Valor *</label>
+      <div class="amount-input"><span class="prefix" id="tPrefix">R$</span><input id="tValor" type="number" step="0.01" min="0" placeholder="0,00"></div>
+    </div>
+    <div class="form-row"><div class="g2">
+      <div><label>Data</label><input id="tData" type="date"></div>
+      <div><label>Categoria</label><select id="tCategoria"></select></div>
+    </div></div>
+    <div class="form-row" id="rowConta"><label>Conta / Carteira</label><select id="tConta"></select></div>
+    <div class="form-row" id="rowContaDest" class="hidden"><label>Conta destino</label><select id="tContaDest"></select></div>
+    <div class="form-row"><div class="g2">
+      <div><label>Forma de pagamento</label><select id="tForma"><option>Dinheiro</option><option>Débito</option><option>Crédito</option><option>PIX</option><option>Transferência</option></select></div>
+      <div><label>Status</label><select id="tStatus"><option value="pago">Pago</option><option value="pendente">Pendente</option><option value="agendado">Agendado</option></select></div>
+    </div></div>
+    <div class="form-row" id="rowCartao" class="hidden"><label>Cartão de crédito</label><select id="tCartao"></select></div>
+    <div class="form-row" id="rowParcela" class="hidden"><label>Parcelas</label><input id="tParcela" type="number" min="1" max="48" value="1"></div>
+    <div class="form-row hidden" id="rowRecorrente"><label>Recorrente</label>
+      <select id="tRecorrente"><option value="">Não recorrente</option><option value="mensal">Mensal</option><option value="semanal">Semanal</option><option value="anual">Anual</option></select>
+    </div>
+    <div class="form-row"><label>Observação (opcional)</label><input id="tObs" placeholder="Nota / comprovante id"></div>
+    <div class="form-actions">
+      <button class="btn outline" onclick="closeModal()">Cancelar</button>
+      <button class="btn primary" onclick="saveTransaction()"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL CONTA -->
+<div class="modal-bg" id="modalContaBg">
+  <div class="modal">
+    <h2 id="modalContaTitle">Nova conta</h2>
+    <div class="form-row"><label>Nome</label><input id="cNome"></div>
+    <div class="form-row"><label>Tipo</label><select id="cTipo"><option value="corrente">Conta corrente</option><option value="poupanca">Poupança</option><option value="carteira">Carteira física</option><option value="cartao">Cartão de crédito</option></select></div>
+    <div class="form-row"><label>Saldo inicial</label><input id="cSaldo" type="number" step="0.01" value="0"></div>
+    <div class="form-row hidden" id="rowCartaoLimite"><label>Limite do cartão</label><input id="cLimite" type="number" step="0.01" value="0"></div>
+    <div class="form-row hidden" id="rowCartaoFecho"><label>Dia de fechamento</label><input id="cFecho" type="number" min="1" max="28" value="5"></div>
+    <div class="form-row hidden" id="rowCartaoVencto"><label>Dia de vencimento</label><input id="cVencto" type="number" min="1" max="28" value="10"></div>
+    <div class="form-actions">
+      <button class="btn outline" onclick="closeContaModal()">Cancelar</button>
+      <button class="btn primary" onclick="saveConta()"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL META -->
+<div class="modal-bg" id="modalMetaBg">
+  <div class="modal">
+    <h2 id="modalMetaTitle">Nova meta</h2>
+    <div class="form-row"><label>Nome</label><input id="mNome"></div>
+    <div class="form-row"><label>Valor alvo</label><input id="mAlvo" type="number" step="0.01"></div>
+    <div class="form-row"><label>Data limite</label><input id="mData" type="date"></div>
+    <div class="form-row"><label>Aporte inicial</label><input id="mAporte" type="number" step="0.01" value="0"></div>
+    <div class="form-actions">
+      <button class="btn outline" onclick="closeMetaModal()">Cancelar</button>
+      <button class="btn primary" onclick="saveMeta()"><i class="fa-solid fa-floppy-disk"></i> Salvar</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="BackEnd/script.js"></script>
+</body>
+</html>

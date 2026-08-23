@@ -1,0 +1,1459 @@
+/**
+ * Finéa - Estilos CSS
+ * ==================
+ * Sistema de design responsivo com suporte a temas claro/escuro
+ * Utiliza CSS Variables para fácil customização
+ * 
+ * Estrutura:
+ * 1. Variáveis de tema (cores, espaçamentos, sombras)
+ * 2. Estilos base (elementos HTML padrão)
+ * 3. Componentes (cards, botões, chips, etc)
+ * 4. Layout (grid, flexbox, posicionamento)
+ * 5. Modais e interações
+ * 6. Responsividade (media queries)
+ */
+
+/* ==========================================
+   1. VARIÁVEIS DE TEMA - MODO CLARO
+   ========================================== */
+:root {
+  /* Cores de fundo e superfícies */
+  --bg: #f4f6fb;           /* Fundo principal da página */
+  --card: #ffffff;          /* Fundo dos cartões */
+  
+  /* Cores de texto */
+  --text: #1a2332;          /* Texto principal */
+  --muted: #6b7488;         /* Texto secundário/desabilitado */
+  
+  /* Borders */
+  --border: #e3e8f0;        /* Cor de bordas */
+  
+  /* Cores de status - Verde (positivo/receita) */
+  --green: #16a34a;
+  --green-bg: #e7f8ee;
+  
+  /* Cores de status - Vermelho (negativo/despesa) */
+  --red: #dc2626;
+  --red-bg: #fdeaea;
+  
+  /* Cores de status - Azul (primário/informação) */
+  --blue: #2563eb;
+  --blue-bg: #e8f0fe;
+  
+  /* Cores de status - Âmbar (alerta/atenção) */
+  --amber: #d97706;
+  --amber-bg: #fdf3e3;
+  
+  /* Cores de status - Roxo (secundário) */
+  --purple: #7c3aed;
+  --purple-bg: #f1ecfd;
+  
+  /* Cores de status - Verde-azulado (destaque) */
+  --teal: #0d9488;
+  --teal-bg: #e6f7f5;
+  
+  /* Cores especiais */
+  --fab: #2563eb;           /* Botão de ação flutuante */
+  
+  /* Efeitos */
+  --shadow: 0 4px 16px rgba(20,30,60,.08); /* Sombra sutil */
+}
+
+/* ==========================================
+   2. VARIÁVEIS DE TEMA - MODO ESCURO
+   ========================================== */
+[data-theme="dark"] {
+  --bg: #0f1420;
+  --card: #1a2233;
+  --text: #e8ecf5;
+  --muted: #93a0b8;
+  --border: #2a3550;
+  
+  --green: #34d27b;
+  --green-bg: #123024;
+  --red: #f0625f;
+  --red-bg: #341a1a;
+  --blue: #6ea0ff;
+  --blue-bg: #1b2a4a;
+  --amber: #f5b04c;
+  --amber-bg: #3a2c14;
+  --purple: #a78bfa;
+  --purple-bg: #2a2150;
+  --teal: #2dd4bf;
+  --teal-bg: #12302c;
+  --fab: #3b82f6;
+  
+  --shadow: 0 4px 16px rgba(0,0,0,.4);
+}
+
+/* ==========================================
+   3. ESTILOS BASE
+   ========================================== */
+
+/* Reset padrão - remove margens e padding padrão */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Corpo da página */
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  transition: .25s; /* Transição suave ao mudar tema */
+}
+
+/* Buttons padrão */
+button {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  background: none;
+  color: inherit;
+}
+
+/* Elementos de formulário (input, select, textarea) */
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 14px;
+  color: var(--text);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 10px 12px;
+  width: 100%;
+  transition: .15s;
+}
+
+/* Estado focus dos formulários */
+input:focus,
+select:focus,
+textarea:focus {
+  outline: 2px solid var(--fab);
+  border-color: transparent;
+}
+
+/* Labels */
+label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+  display: block;
+  margin-bottom: 5px;
+}
+
+/* ==========================================
+   4. COMPONENTES PRINCIPAIS
+   ========================================== */
+
+/* Container principal da aplicação */
+.app {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 16px 96px; /* Padding inferior para espaço da navbar */
+}
+
+/* Barra de navegação superior (sticky) */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: var(--bg);
+  padding: 16px 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo da aplicação */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 800;
+  font-size: 20px;
+}
+
+/* Ícone do logo */
+.logo span {
+  background: var(--fab);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+}
+
+/* Ações da barra superior */
+.top-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+/* Botão com ícone */
+.icon-btn {
+  width: 38px;
+  height: 38px;
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  background: var(--card);
+  border: 1px solid var(--border);
+  font-size: 17px;
+  cursor: pointer;
+  transition: .15s;
+}
+
+.icon-btn:hover {
+  background: var(--bg);
+}
+
+/* ==========================================
+   5. PÁGINAS E NAVEGAÇÃO
+   ========================================== */
+
+/* Páginas principais (main) - ocultas por padrão */
+main {
+  display: none;
+  animation: fade .25s;
+}
+
+/* Página ativa */
+main.active {
+  display: block;
+}
+
+/* Animação de fade ao mudar de página */
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Título da página */
+.page-title {
+  font-size: 22px;
+  font-weight: 800;
+  margin: 6px 0 16px;
+}
+
+/* Card/Cartão - componente principal */
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 18px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+}
+
+/* Grid - layouts responsivos */
+.grid {
+  display: grid;
+  gap: 14px;
+}
+
+/* Grid 2 colunas */
+.g2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Grid 3 colunas */
+.g3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ==========================================
+   6. CARTÕES ESPECIAIS
+   ========================================== */
+
+/* Card de destaque - Saldo Total */
+.balance-hero {
+  background: linear-gradient(135deg, #2563eb, #1e3a8a);
+  color: #fff;
+  border-radius: 20px;
+  padding: 24px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Efeito de decoração (círculo no fundo) */
+.balance-hero::after {
+  content: '';
+  position: absolute;
+  right: -40px;
+  top: -40px;
+  width: 180px;
+  height: 180px;
+  background: rgba(255,255,255,.08);
+  border-radius: 50%;
+}
+
+/* Label do balance hero */
+.balance-hero .lbl {
+  font-size: 13px;
+  opacity: .85;
+  font-weight: 600;
+}
+
+/* Valor do balance hero */
+.balance-hero .val {
+  font-size: 40px;
+  font-weight: 800;
+  margin: 6px 0 2px;
+  letter-spacing: -1px;
+}
+
+/* Subtexto do balance hero */
+.balance-hero .sub {
+  font-size: 13px;
+  opacity: .9;
+}
+
+/* Card de estatística */
+.stat-card {
+  border-radius: 16px;
+  padding: 16px;
+  border: 1px solid var(--border);
+}
+
+/* Label em stat card */
+.stat-card .lbl {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+/* Valor em stat card */
+.stat-card .val {
+  font-size: 24px;
+  font-weight: 800;
+  margin-top: 6px;
+}
+
+/* Comparação em stat card */
+.stat-card .cmp {
+  font-size: 12px;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
+/* Cores de comparação */
+.up {
+  color: var(--green);  /* Subida = verde */
+}
+
+.down {
+  color: var(--red);    /* Queda = vermelho */
+}
+
+/* ==========================================
+   7. BADGES E CHIPS
+   ========================================== */
+
+/* Chip/Badge - pequeno badge com fundo colorido */
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+/* Variações de cores dos chips */
+.chip.green { background: var(--green-bg); color: var(--green); }
+.chip.red { background: var(--red-bg); color: var(--red); }
+.chip.blue { background: var(--blue-bg); color: var(--blue); }
+.chip.amber { background: var(--amber-bg); color: var(--amber); }
+.chip.purple { background: var(--purple-bg); color: var(--purple); }
+.chip.teal { background: var(--teal-bg); color: var(--teal); }
+.chip.gray { background: var(--border); color: var(--muted); }
+
+/* ==========================================
+   8. GRÁFICOS
+   ========================================== */
+
+/* Container de gráficos */
+.chart-wrap {
+  height: 260px;
+  position: relative;
+}
+
+/* Gráfico pequeno */
+.chart-wrap.sm {
+  height: 200px;
+}
+
+/* ==========================================
+   9. LISTAS
+   ========================================== */
+
+/* Item da lista de transações */
+.list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Último item - sem borda */
+.list-item:last-child {
+  border-bottom: none;
+}
+
+/* Ícone da categoria na lista */
+.cat-ico {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+/* Informações da lista */
+.list-item .info {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Título do item da lista */
+.list-item .info .t {
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Subtexto do item da lista */
+.list-item .info .s {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* Cores de valores monetários */
+.val-neg { color: var(--red); font-weight: 800; }
+.val-pos { color: var(--green); font-weight: 800; }
+.val-neu { color: var(--muted); font-weight: 800; }
+
+/* ==========================================
+   10. CABEÇALHOS E TÍTULOS
+   ========================================== */
+
+/* Container com espaçamento entre elemento */
+.mb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+/* Heading em .mb */
+.mb h3 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+/* ==========================================
+   11. BOTÕES
+   ========================================== */
+
+/* Botão base */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border-radius: 11px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: .15s;
+  cursor: pointer;
+}
+
+/* Botão primário (azul) */
+.btn.primary {
+  background: var(--fab);
+  color: #fff;
+  border: none;
+}
+
+.btn.primary:hover {
+  filter: brightness(1.08);
+}
+
+/* Botão outline (sem preenchimento) */
+.btn.outline {
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.btn.outline:hover {
+  background: var(--bg);
+}
+
+/* Botão perigo (vermelho) */
+.btn.danger {
+  background: var(--red-bg);
+  color: var(--red);
+  border: none;
+}
+
+.btn.danger:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+/* Botão pequeno */
+.btn.sm {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 9px;
+}
+
+/* Botão com ícone */
+.btn-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  color: var(--muted);
+  cursor: pointer;
+  transition: .15s;
+}
+
+.btn-icon:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ==========================================
+   12. BOTÃO DE AÇÃO FLUTUANTE (FAB)
+   ========================================== */
+
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: 84px;         /* Acima da navbar */
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--fab);
+  color: #fff;
+  font-size: 28px;
+  box-shadow: 0 6px 20px rgba(37,99,235,.5);
+  display: grid;
+  place-items: center;
+  z-index: 60;
+  transition: transform .15s;
+  border: none;
+  cursor: pointer;
+}
+
+.fab:hover {
+  transform: scale(1.08);
+}
+
+/* ==========================================
+   13. BARRA DE NAVEGAÇÃO INFERIOR
+   ========================================== */
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom)); /* Respeita notch */
+  z-index: 55;
+}
+
+/* Item de navegação */
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 6px 0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: .15s;
+}
+
+/* Item ativo */
+.nav-item.active {
+  color: var(--fab);
+}
+
+/* Ícone do nav item */
+.nav-item .i {
+  font-size: 20px;
+}
+
+/* ==========================================
+   14. BARRAS DE PROGRESSO
+   ========================================== */
+
+.progress {
+  height: 10px;
+  background: var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+/* Barra interna de progresso */
+.progress > div {
+  height: 100%;
+  border-radius: 6px;
+  transition: width .4s;
+}
+
+/* Estados da barra */
+.progress.warn > div { background: var(--amber); }  /* Alerta */
+.progress.ok > div { background: var(--green); }    /* OK */
+.progress.over > div { background: var(--red); }    /* Excedido */
+
+/* ==========================================
+   15. ESTADO VAZIO
+   ========================================== */
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px 10px;
+  font-size: 14px;
+}
+
+/* Ícone de estado vazio */
+.empty .em {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+/* ==========================================
+   16. FORMULÁRIOS
+   ========================================== */
+
+/* Linha de filtros */
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.filter-row input,
+.filter-row select {
+  width: auto;
+  flex: 1;
+  min-width: 120px;
+}
+
+/* Linha de formulário */
+.form-row {
+  margin-bottom: 14px;
+}
+
+/* Grid dentro de form-row */
+.form-row .g2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+/* Input de quantidade (com prefixo de moeda) */
+.amount-input {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.amount-input .prefix {
+  padding: 10px 12px;
+  background: var(--bg);
+  color: var(--muted);
+  font-weight: 700;
+  font-size: 14px;
+  border-right: 1px solid var(--border);
+  white-space: nowrap;
+}
+
+.amount-input input {
+  border: none;
+  background: transparent;
+}
+
+/* Ações de formulário */
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+/* Hidden - oculto */
+.hidden {
+  display: none !important;
+}
+
+/* ==========================================
+   17. TABELAS
+   ========================================== */
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+/* Header da tabela */
+th {
+  text-align: left;
+  color: var(--muted);
+  font-weight: 700;
+  padding: 8px 10px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Célula da tabela */
+td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* Última linha */
+tr:last-child td {
+  border-bottom: none;
+}
+
+/* Hover na linha */
+tr:hover td {
+  background: var(--bg);
+}
+
+/* Formatação de valores monetários */
+.money {
+  font-variant-numeric: tabular-nums; /* Alinha números */
+}
+
+/* ==========================================
+   18. MODAIS
+   ========================================== */
+
+/* Fundo do modal (overlay) */
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,15,30,.55);
+  z-index: 100;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+/* Modal aberto */
+.modal-bg.open {
+  display: flex;
+}
+
+/* Container do modal */
+.modal {
+  background: var(--card);
+  width: 100%;
+  max-width: 520px;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  max-height: 92vh;
+  overflow-y: auto;
+  animation: fadeUp .25s;
+}
+
+/* Animação de entrada do modal */
+@keyframes fadeUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+/* Desktop: modal centralizado */
+@media(min-width: 640px) {
+  .modal-bg {
+    align-items: center;
+    justify-content: center;
+  }
+  .modal {
+    border-radius: 20px;
+    max-width: 500px;
+  }
+}
+
+/* Título do modal */
+.modal h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+/* Seletor de tipo (receita/despesa) */
+.type-select {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+/* Botão de seleção de tipo */
+.type-opt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 12px 8px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  background: var(--card);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: .15s;
+}
+
+/* Tipo ativo */
+.type-opt.active {
+  border-color: var(--fab);
+  background: var(--blue-bg);
+  color: var(--fab);
+}
+
+/* Classes de tipo para colorir ícone */
+.type-opt.exp { color: var(--green); }      /* Receita */
+.type-opt.des { color: var(--red); }        /* Despesa */
+.type-opt.trans { color: var(--blue); }     /* Transferência */
+
+/* ==========================================
+   19. SEÇÕES
+   ========================================== */
+
+/* Label de seção */
+.sec-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 20px 0 8px;
+  text-transform: uppercase;
+}
+
+/* Card diário */
+.daily-card {
+  background: linear-gradient(135deg, var(--green), #10b981);
+  color: #fff;
+  border-radius: 16px;
+  padding: 16px;
+  margin-bottom: 16px;
+}
+
+.daily-card .lbl {
+  font-size: 13px;
+  opacity: .85;
+  font-weight: 600;
+}
+
+.daily-card .val {
+  font-size: 28px;
+  font-weight: 800;
+  margin: 6px 0 2px;
+}
+
+.daily-card .sub {
+  font-size: 12px;
+  opacity: .9;
+}
+
+/* Alerta de orçamento */
+.budget-alert {
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.budget-alert.warn {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+
+.budget-alert.over {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+/* ==========================================
+   20. RESPONSIVIDADE (Mobile/Tablet/Desktop)
+   ========================================== */
+
+/* Tablet e acima */
+@media(min-width: 768px) {
+  .app {
+    padding: 0 24px 32px;
+  }
+  
+  .g2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  .mobile-hide {
+    display: table-cell !important;
+  }
+}
+
+/* Desktop grande */
+@media(min-width: 1024px) {
+  .fab {
+    right: 30px;
+    bottom: 30px;
+  }
+  
+  .bottom-nav {
+    display: none; /* Oculta em desktop */
+  }
+  
+  main {
+    padding-bottom: 0;
+  }
+}
+
+/* Mobile pequeno */
+@media(max-width: 480px) {
+  .g2, .g3 {
+    grid-template-columns: 1fr;
+  }
+  
+  .balance-hero .val {
+    font-size: 28px;
+  }
+  
+  .mobile-hide {
+    display: none !important;
+  }
+  
+  .filter-row {
+    gap: 6px;
+  }
+  
+  .filter-row input,
+  .filter-row select {
+    min-width: 100px;
+  }
+}
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+.cat-ico {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.list-item .info {
+  flex: 1;
+  min-width: 0;
+}
+
+.list-item .info .t {
+  font-weight: 700;
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.list-item .info .s {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.val-neg { color: var(--red); font-weight: 800; }
+.val-pos { color: var(--green); font-weight: 800; }
+.val-neu { color: var(--muted); font-weight: 800; }
+
+.mb {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.mb h3 {
+  font-size: 16px;
+  font-weight: 800;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 16px;
+  border-radius: 11px;
+  font-weight: 700;
+  font-size: 14px;
+  transition: .15s;
+}
+
+.btn.primary {
+  background: var(--fab);
+  color: #fff;
+}
+
+.btn.primary:hover {
+  filter: brightness(1.08);
+}
+
+.btn.outline {
+  border: 1px solid var(--border);
+  background: var(--card);
+}
+
+.btn.outline:hover {
+  background: var(--bg);
+}
+
+.btn.danger {
+  background: var(--red-bg);
+  color: var(--red);
+}
+
+.btn.danger:hover {
+  background: var(--red);
+  color: #fff;
+}
+
+.btn.sm {
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 9px;
+}
+
+.btn-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  display: grid;
+  place-items: center;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.btn-icon:hover {
+  background: var(--bg);
+  color: var(--text);
+}
+
+.fab {
+  position: fixed;
+  right: 20px;
+  bottom: 84px;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--fab);
+  color: #fff;
+  font-size: 28px;
+  box-shadow: 0 6px 20px rgba(37,99,235,.5);
+  display: grid;
+  place-items: center;
+  z-index: 60;
+  transition: transform .15s;
+}
+
+.fab:hover {
+  transform: scale(1.08);
+}
+
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  display: flex;
+  justify-content: space-around;
+  padding: 8px 4px calc(8px + env(safe-area-inset-bottom));
+  z-index: 55;
+}
+
+.nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+  padding: 6px 0;
+  border-radius: 10px;
+}
+
+.nav-item.active {
+  color: var(--fab);
+}
+
+.nav-item .i {
+  font-size: 20px;
+}
+
+.progress {
+  height: 10px;
+  background: var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+
+.progress > div {
+  height: 100%;
+  border-radius: 6px;
+  transition: width .4s;
+}
+
+.progress.warn > div { background: var(--amber); }
+.progress.ok > div { background: var(--green); }
+.progress.over > div { background: var(--red); }
+
+.empty {
+  text-align: center;
+  color: var(--muted);
+  padding: 30px 10px;
+  font-size: 14px;
+}
+
+.empty .em {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+}
+
+.filter-row input,
+.filter-row select {
+  width: auto;
+  flex: 1;
+  min-width: 120px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+th {
+  text-align: left;
+  color: var(--muted);
+  font-weight: 700;
+  padding: 8px 10px;
+  font-size: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+tr:last-child td {
+  border-bottom: none;
+}
+
+tr:hover td {
+  background: var(--bg);
+}
+
+.money {
+  font-variant-numeric: tabular-nums;
+}
+
+.modal-bg {
+  position: fixed;
+  inset: 0;
+  background: rgba(10,15,30,.55);
+  z-index: 100;
+  display: none;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.modal-bg.open {
+  display: flex;
+}
+
+.modal {
+  background: var(--card);
+  width: 100%;
+  max-width: 520px;
+  border-radius: 20px 20px 0 0;
+  padding: 20px;
+  max-height: 92vh;
+  overflow-y: auto;
+  animation: fadeUp .25s;
+}
+
+@keyframes fadeUp {
+  from {
+    transform: translateY(40px);
+    opacity: 0;
+  }
+  to {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+@media(min-width: 640px) {
+  .modal-bg {
+    align-items: center;
+    justify-content: center;
+  }
+  .modal {
+    border-radius: 20px;
+  }
+}
+
+.modal h2 {
+  font-size: 18px;
+  font-weight: 800;
+  margin-bottom: 16px;
+}
+
+.type-select {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.type-opt {
+  padding: 12px;
+  border-radius: 12px;
+  border: 2px solid var(--border);
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  transition: .15s;
+}
+
+.type-opt.active.exp {
+  background: var(--green-bg);
+  border-color: var(--green);
+  color: var(--green);
+}
+
+.type-opt.active.des {
+  background: var(--red-bg);
+  border-color: var(--red);
+  color: var(--red);
+}
+
+.type-opt.active.trans {
+  background: var(--blue-bg);
+  border-color: var(--blue);
+  color: var(--blue);
+}
+
+.form-row {
+  margin-bottom: 14px;
+}
+
+.form-row .g2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.form-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 18px;
+}
+
+.form-actions .btn {
+  flex: 1;
+}
+
+.toast {
+  position: fixed;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-80px);
+  background: var(--text);
+  color: var(--bg);
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 700;
+  font-size: 14px;
+  z-index: 200;
+  box-shadow: var(--shadow);
+  transition: transform .3s;
+  opacity: 0;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+
+.toast.success {
+  background: var(--green);
+  color: #fff;
+}
+
+.toast.error {
+  background: var(--red);
+  color: #fff;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.mobile-hide {
+  display: none;
+}
+
+@media(min-width: 768px) {
+  .mobile-hide {
+    display: table-cell;
+  }
+}
+
+.sec-label {
+  font-size: 12px;
+  color: var(--muted);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin: 18px 0 8px;
+}
+
+.amount-input {
+  position: relative;
+}
+
+.amount-input .prefix {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.amount-input input {
+  padding-left: 30px;
+}
+
+.daily-card {
+  background: linear-gradient(135deg, #16a34a, #0d9488);
+  color: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: var(--shadow);
+}
+
+.daily-card .lbl {
+  font-size: 13px;
+  opacity: .9;
+  font-weight: 600;
+}
+
+.daily-card .val {
+  font-size: 34px;
+  font-weight: 800;
+  margin-top: 4px;
+}
+
+.daily-card .sub {
+  font-size: 12px;
+  opacity: .9;
+  margin-top: 2px;
+}
+
+.budget-alert {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 10px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.budget-alert.warn {
+  background: var(--amber-bg);
+  color: var(--amber);
+}
+
+.budget-alert.over {
+  background: var(--red-bg);
+  color: var(--red);
+}
+

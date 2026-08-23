@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solicitar Exclusão de Dados - Finéa (LGPD Art. 18)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            max-width: 600px;
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        
+        h1 {
+            color: #dc2626;
+            margin-bottom: 10px;
+            font-size: 24px;
+            text-align: center;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .warning-box {
+            background: #fef2f2;
+            border-left: 4px solid #dc2626;
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 30px;
+        }
+        
+        .warning-box h3 {
+            color: #dc2626;
+            margin-bottom: 10px;
+        }
+        
+        .warning-box p {
+            color: #7f1d1d;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .steps {
+            background: #f3f4f6;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        
+        .steps h3 {
+            color: #1f2937;
+            margin-bottom: 15px;
+        }
+        
+        .step-item {
+            display: flex;
+            margin-bottom: 12px;
+            align-items: flex-start;
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 32px;
+            width: 32px;
+            height: 32px;
+            background: #2563eb;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .step-text {
+            flex: 1;
+            color: #374151;
+            font-size: 14px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #1f2937;
+            font-size: 14px;
+        }
+        
+        input[type="email"],
+        input[type="text"],
+        textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #d1d5db;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="email"]:focus,
+        input[type="text"]:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        
+        .checkbox-group {
+            background: #f9fafb;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .checkbox-item:last-child {
+            margin-bottom: 0;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-right: 12px;
+            cursor: pointer;
+            accent-color: #dc2626;
+        }
+        
+        .checkbox-item label {
+            margin: 0;
+            font-weight: normal;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .btn-delete {
+            background: #dc2626;
+            color: white;
+        }
+        
+        .btn-delete:hover:not(:disabled) {
+            background: #b91c1c;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(220, 38, 38, 0.3);
+        }
+        
+        .btn-delete:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        
+        .btn-cancel {
+            background: #e5e7eb;
+            color: #1f2937;
+        }
+        
+        .btn-cancel:hover {
+            background: #d1d5db;
+        }
+        
+        .info-box {
+            background: #dbeafe;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            font-size: 13px;
+            color: #1e40af;
+        }
+        
+        .success-message {
+            background: #d1fae5;
+            border: 1px solid #6ee7b7;
+            color: #065f46;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .footer-text {
+            text-align: center;
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 20px;
+        }
+        
+        .highlight {
+            font-weight: 600;
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>⚠️ Solicitar Exclusão de Dados</h1>
+        <p class="subtitle">Conforme Lei Geral de Proteção de Dados (LGPD - Art. 18)</p>
+        
+        <!-- Mensagem de Sucesso -->
+        <div class="success-message" id="successMessage">
+            ✅ Sua solicitação foi enviada com sucesso! Você receberá um e-mail de confirmação em breve.
+        </div>
+        
+        <!-- Caixa de Aviso -->
+        <div class="warning-box">
+            <h3>⚠️ Atenção - Ação Irreversível</h3>
+            <p>
+                <strong>A exclusão de seus dados é permanente e não pode ser revertida.</strong>
+            </p>
+            <p>
+                Após a confirmação, você terá <span class="highlight">7 dias</span> para fazer download de todos os seus dados 
+                financeiros antes da exclusão definitiva.
+            </p>
+            <p>
+                Uma vez deletados, seus dados serão permanentemente removidos dos servidores do Finéa 
+                em até <span class="highlight">30 dias úteis</span>.
+            </p>
+        </div>
+        
+        <!-- Passos do Processo -->
+        <div class="steps">
+            <h3>📋 O que acontecerá:</h3>
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <div class="step-text">Você receberá um e-mail de confirmação no seu e-mail cadastrado</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <div class="step-text">Clique no link de confirmação dentro de 48 horas</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <div class="step-text">Você terá 7 dias para fazer download de seus dados (opcional)</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">4</div>
+                <div class="step-text">Seus dados serão deletados em até 30 dias úteis</div>
+            </div>
+            <div class="step-item">
+                <div class="step-number">5</div>
+                <div class="step-text">Você receberá e-mail de confirmação da exclusão</div>
+            </div>
+        </div>
+        
+        <!-- Informação -->
+        <div class="info-box">
+            💾 <strong>Dica:</strong> Recomendamos fazer download de todos os seus dados financeiros antes de confirmar a exclusão. 
+            Você terá 7 dias para isso após clicar no link de confirmação.
+        </div>
+        
+        <!-- Formulário -->
+        <form id="deleteForm">
+            <div class="form-group">
+                <label for="email">E-mail cadastrado no Finéa *</label>
+                <input 
+                    type="email" 
+                    id="email" 
+                    name="email" 
+                    placeholder="seu@email.com"
+                    required
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="cpf">CPF cadastrado *</label>
+                <input 
+                    type="text" 
+                    id="cpf" 
+                    name="cpf" 
+                    placeholder="000.000.000-00"
+                    required
+                >
+            </div>
+            
+            <div class="form-group">
+                <label for="motivo">Por que está excluindo sua conta? (Opcional)</label>
+                <textarea 
+                    id="motivo" 
+                    name="motivo" 
+                    rows="3"
+                    placeholder="Sua opinião nos ajuda a melhorar..."
+                ></textarea>
+            </div>
+            
+            <!-- Confirmações Obrigatórias -->
+            <div class="form-group">
+                <label style="font-weight: 600; margin-bottom: 12px;">Confirme sua compreensão: *</label>
+                <div class="checkbox-group">
+                    <div class="checkbox-item">
+                        <input 
+                            type="checkbox" 
+                            id="confirm1" 
+                            name="confirm1"
+                            required
+                        >
+                        <label for="confirm1">
+                            Entendo que esta ação é <strong>irreversível</strong> e meus dados não poderão ser recuperados
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <input 
+                            type="checkbox" 
+                            id="confirm2" 
+                            name="confirm2"
+                            required
+                        >
+                        <label for="confirm2">
+                            Entendo que minha conta será <strong>desativada permanentemente</strong>
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <input 
+                            type="checkbox" 
+                            id="confirm3" 
+                            name="confirm3"
+                            required
+                        >
+                        <label for="confirm3">
+                            Entendo que terei <strong>7 dias</strong> para fazer download de meus dados
+                        </label>
+                    </div>
+                    
+                    <div class="checkbox-item">
+                        <input 
+                            type="checkbox" 
+                            id="confirm4" 
+                            name="confirm4"
+                            required
+                        >
+                        <label for="confirm4">
+                            Confirmo que solicitei esta exclusão e autorizo o Finéa a deletar meus dados
+                        </label>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Botões -->
+            <div class="button-group">
+                <button type="button" class="btn-cancel" onclick="window.history.back();">
+                    Cancelar
+                </button>
+                <button type="submit" class="btn-delete" id="submitBtn">
+                    Confirmar Exclusão
+                </button>
+            </div>
+        </form>
+        
+        <!-- Rodapé -->
+        <div class="footer-text">
+            <p>💾 Esta solicitação será processada conforme a Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018)</p>
+            <p>Para dúvidas, contate: <strong>privacidade@finea.app</strong></p>
+        </div>
+    </div>
+    
+    <script>
+        const form = document.getElementById('deleteForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const successMessage = document.getElementById('successMessage');
+        
+        // Validar CPF
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]/g, '');
+            return cpf.length === 11;
+        }
+        
+        // Habilitar/desabilitar botão
+        function verificarFormulario() {
+            const confirm1 = document.getElementById('confirm1').checked;
+            const confirm2 = document.getElementById('confirm2').checked;
+            const confirm3 = document.getElementById('confirm3').checked;
+            const confirm4 = document.getElementById('confirm4').checked;
+            const email = document.getElementById('email').value;
+            const cpf = document.getElementById('cpf').value;
+            
+            submitBtn.disabled = !(confirm1 && confirm2 && confirm3 && confirm4 && email && cpf);
+        }
+        
+        // Adicionar listeners
+        document.getElementById('confirm1').addEventListener('change', verificarFormulario);
+        document.getElementById('confirm2').addEventListener('change', verificarFormulario);
+        document.getElementById('confirm3').addEventListener('change', verificarFormulario);
+        document.getElementById('confirm4').addEventListener('change', verificarFormulario);
+        document.getElementById('email').addEventListener('input', verificarFormulario);
+        document.getElementById('cpf').addEventListener('input', verificarFormulario);
+        
+        // Inicializar
+        verificarFormulario();
+        submitBtn.disabled = true;
+        
+        // Submissão do formulário
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const cpf = document.getElementById('cpf').value;
+            const motivo = document.getElementById('motivo').value;
+            
+            // Validar CPF
+            if (!validarCPF(cpf)) {
+                alert('CPF inválido. Por favor, verifique.');
+                return;
+            }
+            
+            // Enviar solicitação ao backend
+            try {
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Processando...';
+                
+                const response = await fetch('/api/usuarios/solicitar-exclusao', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        cpf: cpf,
+                        motivo: motivo
+                    })
+                });
+                
+                if (response.ok) {
+                    successMessage.style.display = 'block';
+                    form.style.display = 'none';
+                    
+                    // Rolar para o topo
+                    window.scrollTo(0, 0);
+                    
+                    // Mostrar instruções finais
+                    setTimeout(() => {
+                        alert('Verifique seu e-mail. Você receberá um link de confirmação em breve!');
+                    }, 1000);
+                } else {
+                    const error = await response.json();
+                    alert('Erro: ' + (error.erro || 'Não foi possível processar sua solicitação'));
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Confirmar Exclusão';
+                }
+            } catch (error) {
+                console.error('Erro:', error);
+                alert('Erro ao enviar solicitação. Tente novamente mais tarde.');
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Confirmar Exclusão';
+            }
+        });
+    </script>
+</body>
+</html>

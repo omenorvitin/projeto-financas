@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Termo de Consentimento - Finéa</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #f5f5f5;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            padding: 40px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #1a2332;
+            margin-bottom: 30px;
+            font-size: 28px;
+            border-bottom: 3px solid #2563eb;
+            padding-bottom: 15px;
+        }
+        
+        h2 {
+            color: #2563eb;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+        
+        h3 {
+            color: #1a2332;
+            margin-top: 20px;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+        
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        li {
+            margin-bottom: 8px;
+        }
+        
+        .highlight {
+            background: #e8f0fe;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .warning {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }
+        
+        .agreement-box {
+            background: #f0f7ff;
+            border: 2px solid #2563eb;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .agreement-box h3 {
+            margin-top: 0;
+            color: #2563eb;
+        }
+        
+        .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #e0e0e0;
+            color: #666;
+            font-size: 14px;
+        }
+        
+        strong {
+            color: #2563eb;
+        }
+        
+        .checkbox-list {
+            margin: 20px 0;
+            padding: 15px;
+            background: #f9f9f9;
+            border-radius: 6px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 4px;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 15px;
+            margin-top: 3px;
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+        }
+        
+        .checkbox-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+        
+        .sign-area {
+            margin-top: 40px;
+            padding-top: 30px;
+            border-top: 2px solid #ddd;
+        }
+        
+        .sign-line {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-top: 40px;
+        }
+        
+        .sign-field {
+            border-top: 1px solid #000;
+            text-align: center;
+            padding-top: 10px;
+            font-size: 12px;
+        }
+        
+        .success-message {
+            background: #d4edda;
+            border: 2px solid #28a745;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 20px 0;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📋 Termo de Consentimento para Proteção de Dados Pessoais</h1>
+        
+        <p><strong>Data:</strong> 13 de agosto de 2026</p>
+        <p><strong>Serviço:</strong> Finéa - Sistema de Gestão Financeira Pessoal</p>
+        
+        <div class="highlight">
+            <p>
+                Este Termo de Consentimento estabelece os termos sob os quais você concorda em compartilhar seus dados pessoais 
+                com o Finéa, em conformidade com a Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018).
+            </p>
+        </div>
+
+        <!-- SEÇÃO 1 -->
+        <h2>1. O Que é Este Documento</h2>
+        <p>
+            Este é um <strong>Termo de Consentimento</strong> que você deve ler e aceitar para usar o Finéa. 
+            Ele explica quais dados coletamos, por que os coletamos e como os protegemos. 
+            Sua privacidade e segurança são nossa prioridade máxima.
+        </p>
+
+        <!-- SEÇÃO 2 -->
+        <h2>2. Dados que Você nos Autoriza a Coletar</h2>
+        <p>Ao aceitar este termo, você nos autoriza a coletar e armazenar:</p>
+        
+        <div class="checkbox-list">
+            <div class="checkbox-item">
+                <input type="checkbox" id="check1" disabled checked>
+                <label for="check1">
+                    <strong>Nome Completo</strong> - Para identificar sua conta e personalizar sua experiência
+                </label>
+            </div>
+            
+            <div class="checkbox-item">
+                <input type="checkbox" id="check2" disabled checked>
+                <label for="check2">
+                    <strong>E-mail</strong> - Para autenticação, recuperação de senha e notificações importantes
+                </label>
+            </div>
+            
+            <div class="checkbox-item">
+                <input type="checkbox" id="check3" disabled checked>
+                <label for="check3">
+                    <strong>CPF</strong> - Para segurança da conta e conformidade com regulamentações legais
+                </label>
+            </div>
+            
+            <div class="checkbox-item">
+                <input type="checkbox" id="check4" disabled checked>
+                <label for="check4">
+                    <strong>Dados Bancários</strong> - Saldos de contas, transações, pix, cartões de crédito 
+                    (armazenados apenas no Finéa, com segurança máxima)
+                </label>
+            </div>
+            
+            <div class="checkbox-item">
+                <input type="checkbox" id="check5" disabled checked>
+                <label for="check5">
+                    <strong>Histórico Financeiro</strong> - Receitas, despesas, orçamentos e metas que você registra
+                </label>
+            </div>
+        </div>
+
+        <!-- SEÇÃO 3 -->
+        <h2>3. Finalidade do Uso de Seus Dados</h2>
+        <p>
+            Você autoriza o Finéa a usar seus dados <strong>exclusivamente</strong> para:
+        </p>
+        
+        <ul>
+            <li>✅ Permitir seu acesso à plataforma através de autenticação segura</li>
+            <li>✅ Armazenar e gerenciar suas informações financeiras pessoais</li>
+            <li>✅ Fornecer relatórios, gráficos e análises do seu desempenho financeiro</li>
+            <li>✅ Manter a segurança da sua conta contra acessos não autorizados</li>
+            <li>✅ Cumprir obrigações legais e regulatórias brasileiras</li>
+            <li>✅ Enviar notificações importantes sobre sua conta (quando necessário)</li>
+        </ul>
+        
+        <div class="warning">
+            <strong>❌ Expressamente NÃO autorizamos:</strong>
+            <ul>
+                <li>Venda de seus dados a terceiros</li>
+                <li>Aluguel de dados para outras empresas</li>
+                <li>Uso de seus dados para marketing ou propaganda</li>
+                <li>Compartilhamento com qualquer outro serviço sem sua autorização explícita</li>
+                <li>Armazenamento de dados além do necessário</li>
+            </ul>
+        </div>
+
+        <!-- SEÇÃO 4 -->
+        <h2>4. Segurança e Proteção de Dados</h2>
+        <p>
+            Você autoriza o Finéa a implementar medidas de segurança necessárias para proteger seus dados:
+        </p>
+        
+        <ul>
+            <li>🔐 Criptografia de senhas usando algoritmo bcrypt (padrão de segurança internacional)</li>
+            <li>🔐 Conexão HTTPS para todas as comunicações entre seu navegador e nossos servidores</li>
+            <li>🔐 Backup regular de dados para evitar perda de informações</li>
+            <li>🔐 Restrição de acesso apenas a sistemas que precisam dos dados</li>
+            <li>🔐 Monitoramento constante contra atividades suspeitas</li>
+        </ul>
+
+        <!-- SEÇÃO 5 -->
+        <h2>5. Seus Direitos Garantidos pela LGPD</h2>
+        <p>
+            Mesmo após aceitar este termo, você mantém todos os seus direitos garantidos pela Lei Geral de Proteção de Dados. 
+            Você pode, a qualquer momento:
+        </p>
+        
+        <ul>
+            <li>📌 <strong>Acessar seus dados:</strong> Solicitar uma cópia completa de todas as suas informações</li>
+            <li>📌 <strong>Corrigir dados incorretos:</strong> Atualizar informações que estejam erradas</li>
+            <li>📌 <strong>Deletar seus dados:</strong> Solicitar exclusão total e permanente conforme Art. 18 da LGPD</li>
+            <li>📌 <strong>Portabilidade:</strong> Receber seus dados em formato estruturado para transferir</li>
+            <li>📌 <strong>Revogar consentimento:</strong> Deixar de usar o serviço a qualquer momento</li>
+        </ul>
+
+        <!-- SEÇÃO 6 -->
+        <h2>6. Como Solicitar Exclusão de Dados</h2>
+        <p>
+            Você pode solicitar a exclusão total e permanente de sua conta e dados conforme o Art. 18 da LGPD:
+        </p>
+        
+        <div class="agreement-box">
+            <h3>⚠️ Importante:</h3>
+            <p>
+                A exclusão é <strong>irreversível</strong>. Após solicitada, você terá <strong>7 dias para fazer download</strong> 
+                de seus dados antes da exclusão. Passado esse período, todos os seus dados serão permanentemente deletados 
+                dos servidores do Finéa em até 30 dias úteis.
+            </p>
+        </div>
+        
+        <p><strong>Para solicitar exclusão:</strong></p>
+        <ol>
+            <li>Faça login no Finéa</li>
+            <li>Vá para <strong>Configurações → Privacidade → Solicitar Exclusão</strong></li>
+            <li>Clique em <strong>"Solicitar Exclusão Total"</strong></li>
+            <li>Você receberá um e-mail de confirmação com um link</li>
+            <li>Clique no link para confirmar a solicitação</li>
+            <li>Seus dados serão deletados em até 30 dias úteis</li>
+        </ol>
+
+        <!-- SEÇÃO 7 -->
+        <h2>7. Não Compartilhamos Seus Dados</h2>
+        <p>
+            <strong>Você autoriza a si mesmo a usar nossos serviços sabendo que:</strong>
+        </p>
+        
+        <div class="highlight">
+            <p>
+                ✅ Seus dados <strong>nunca serão vendidos</strong> a terceiros<br>
+                ✅ Seus dados <strong>nunca serão alugados</strong> para outras empresas<br>
+                ✅ Seus dados <strong>nunca serão usados</strong> para marketing ou propaganda<br>
+                ✅ Seus dados <strong>permanecem privados</strong> e acessíveis apenas por você
+            </p>
+        </div>
+        
+        <p>
+            <strong>Únicas exceções (exigidas por lei):</strong> Se uma autoridade judicial ou regulatória exigir 
+            seus dados por meio de decisão judicial ou investigação legal legítima.
+        </p>
+
+        <!-- SEÇÃO 8 -->
+        <h2>8. Você Reconhece e Concorda</h2>
+        <p>Ao usar o Finéa, você reconhece e concorda que:</p>
+        
+        <ul>
+            <li>✓ Leu e entendeu esta política de privacidade</li>
+            <li>✓ Concorda voluntariamente em compartilhar seus dados pessoais conforme descrito</li>
+            <li>✓ Entende que seus dados serão armazenados em um banco de dados seguro</li>
+            <li>✓ Entende que pode solicitar acesso, correção ou exclusão a qualquer tempo</li>
+            <li>✓ Compreende que a LGPD garante seus direitos de privacidade</li>
+            <li>✓ Concorda com as medidas de segurança implementadas pelo Finéa</li>
+        </ul>
+
+        <!-- SEÇÃO 9 -->
+        <h2>9. Contato - Dúvidas sobre Privacidade</h2>
+        <p>
+            Se você tem dúvidas sobre este termo ou deseja exercer seus direitos conforme a LGPD, 
+            entre em contato com nosso Encarregado de Proteção de Dados (DPO):
+        </p>
+        
+        <div class="agreement-box">
+            <p><strong>Email:</strong> privacidade@finea.app</p>
+            <p><strong>Telefone:</strong> (11) 3000-0000</p>
+            <p><strong>Horário:</strong> Segunda a Sexta, 9h às 18h</p>
+            <p><strong>Resposta em até:</strong> 15 dias úteis</p>
+        </div>
+
+        <!-- SEÇÃO 10 -->
+        <h2>10. Vigência e Alterações</h2>
+        <p>
+            Este Termo de Consentimento está em vigor a partir da data que você o aceita e permanecerá válido 
+            enquanto sua conta estiver ativa no Finéa.
+        </p>
+        
+        <p>
+            Se alterarmos este termo, você será notificado por e-mail. Mudanças significativas exigem seu novo consentimento explícito.
+        </p>
+
+        <!-- SEÇÃO 11 -->
+        <h2>11. Lei Aplicável</h2>
+        <p>
+            Este Termo é regido pelas leis da República Federativa do Brasil, 
+            especialmente pela Lei Geral de Proteção de Dados (Lei 13.709/2018).
+        </p>
+
+        <!-- ACEITE -->
+        <div class="agreement-box">
+            <h3>📝 Aceite do Termo</h3>
+            <p>
+                <strong>Ao criar sua conta no Finéa, você automaticamente concorda com:</strong>
+            </p>
+            <ul>
+                <li>✓ Todos os termos e condições acima descritos</li>
+                <li>✓ O compartilhamento de seus dados pessoais conforme autorizado</li>
+                <li>✓ O armazenamento seguro de suas informações financeiras</li>
+                <li>✓ As medidas de segurança implementadas</li>
+                <li>✓ Seus direitos conforme a LGPD (acesso, correção, exclusão)</li>
+            </ul>
+        </div>
+
+        <!-- RODAPÉ -->
+        <div class="footer">
+            <p><strong>Última atualização:</strong> 13 de agosto de 2026</p>
+            <p><strong>Versão:</strong> 1.0 - LGPD Compliant</p>
+            <p>
+                Este termo está em conformidade total com a Lei Geral de Proteção de Dados (LGPD - Lei 13.709/2018) 
+                e foi elaborado por especialista em Direito Digital e Proteção de Dados.
+            </p>
+            <p style="margin-top: 20px; font-size: 12px;">
+                💾 Se desejar, você pode salvar ou imprimir este termo para seus registros.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
